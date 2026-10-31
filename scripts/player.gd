@@ -1,17 +1,25 @@
 extends CharacterBody2D
 
-@export var speed: float = 80.0 #set speed variable to 80.0
+@export var speed: float = 80.0 # set speed variable to 80.0
 
-@onready var sprite: Sprite2D = $Sprite2D #sets the sprite variable to the Sprite2D node in the scene
-@onready var sword_hitbox: Area2D = $SwordHitBox #sets the sword_hitbox variable to the SwordHitBox node in the scene
-@onready var attack_timer: Timer = $AttackTimer #sets the attack_timer variable to the AttackTimer node in the scene
+var facing_direction: Vector2 = Vector2.DOWN
+
+@onready var sprite: Sprite2D = $Sprite2D # sets the sprite variable to the Sprite2D node in the scene
+@onready var sword_hitbox: Area2D = $SwordHitBox # sets the sword_hitbox variable to the SwordHitBox node in the scene
+@onready var attack_timer: Timer = $AttackTimer # sets the attack_timer variable to the AttackTimer node in the scene
 
 var front_texture = preload("res://assets/original/redKnight/redKnightFront.png")
-var back_texture = preload("res://assets/original/redKnight/redKnightBack.png") #preload("res://assets/original/redKnight/redKnightBack.png")
+var back_texture = preload("res://assets/original/redKnight/redKnightBack.png") # preload("res://assets/original/redKnight/redKnightBack.png")
 var side_texture = preload("res://assets/original/redKnight/redKnightSide.png")
 
 func _physics_process(_delta):
 	var direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+
+	if direction != Vector2.ZERO:
+		if abs(direction.x) > abs(direction.y):
+			facing_direction = Vector2(sign(direction.x), 0)
+		else:
+			facing_direction = Vector2(0, sign(direction.y))
 
 	# Calculate movement velocity
 	velocity = direction * speed
@@ -25,15 +33,16 @@ func _physics_process(_delta):
 		sprite.texture = front_texture
 		sprite.flip_h = false
 
-	elif direction.x > 0: 
+	elif direction.x > 0:
 		sprite.texture = side_texture
 		sprite.flip_h = false
 
-	elif direction.x < 0: #if the player is moving left, set the sprite to the side texture and flip it horizontally
+	elif direction.x < 0: # if the player is moving left, set the sprite to the side texture and flip it horizontally
 		sprite.texture = side_texture
 		sprite.flip_h = true
 
 	if Input.is_action_just_pressed("attack") and attack_timer.is_stopped():
+		sword_hitbox.position = facing_direction * 12 # position the sword hitbox in front of the player based on facing direction
 		sword_hitbox.monitoring = true
 		attack_timer.start()
 		print("Attack!")
@@ -43,5 +52,11 @@ func _physics_process(_delta):
 
 
 func _on_attack_timer_timeout() -> void:
-	sword_hitbox.monitoring = false
+	sword_hitbox.monitoring = false # turn off hitbox when timer expires
 	print("Attack finished!")
+
+
+func _on_sword_hit_box_body_entered(body: Node2D) -> void:
+	
+	if body.is_in_group("enemies"):
+		body.take_damage(1) # call the take_damage function on the enemy with 1 damage

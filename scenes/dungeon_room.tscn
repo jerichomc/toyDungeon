@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://r0ie82rs2lwp" path="res://assets/third_party/pixel_poem/Dungeon_Tileset.png" id="1_ovmbm"]
 [ext_resource type="PackedScene" uid="uid://csdi0t1w5ahtu" path="res://scenes/player.tscn" id="2_3538w"]
+[ext_resource type="PackedScene" uid="uid://dy5dkqyq72d2m" path="res://scenes/enemy.tscn" id="3_6166o"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3538w"]
 texture = ExtResource("1_ovmbm")
@@ -146,3 +147,6 @@ tile_set = SubResource("TileSet_6166o")
 
 [node name="Player" parent="." unique_id=1122332256 instance=ExtResource("2_3538w")]
 position = Vector2(167, 157)
+
+[node name="Enemy" parent="." unique_id=1775885179 instance=ExtResource("3_6166o")]
+position = Vector2(119, 147)

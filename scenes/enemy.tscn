@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dy5dkqyq72d2m"]
+
+[ext_resource type="Texture2D" uid="uid://ckedo0spi08av" path="res://assets/third_party/pixel_poem/Character/Dungeon_Character.png" id="1_7p1mj"]
+[ext_resource type="Script" uid="uid://bhxhroqovtbry" path="res://scripts/enemy.gd" id="1_md0e3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8tegq"]
+size = Vector2(11, 15)
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1775885179 groups=["enemies"]]
+position = Vector2(15, 5)
+script = ExtResource("1_md0e3")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2030115149]
+texture = ExtResource("1_7p1mj")
+region_enabled = true
+region_rect = Rect2(64.2802, 48.060158, 15.886932, 15.939842)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1554284440]
+shape = SubResource("RectangleShape2D_8tegq")
