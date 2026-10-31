@@ -1,12 +1,13 @@
 extends CharacterBody2D
 
-@export var speed: float = 80.0 # set speed variable to 80.0
+@export var speed: float = 70.0 # set speed variable to 70.0
 
 var facing_direction: Vector2 = Vector2.DOWN
 
 @onready var sprite: Sprite2D = $Sprite2D # sets the sprite variable to the Sprite2D node in the scene
 @onready var sword_hitbox: Area2D = $SwordHitBox # sets the sword_hitbox variable to the SwordHitBox node in the scene
 @onready var attack_timer: Timer = $AttackTimer # sets the attack_timer variable to the AttackTimer node in the scene
+@onready var sword_sprite: Sprite2D = $SwordSprite # sets the sword_sprite variable to the SwordSprite node in the scene
 
 var front_texture = preload("res://assets/original/redKnight/redKnightFront.png")
 var back_texture = preload("res://assets/original/redKnight/redKnightBack.png") # preload("res://assets/original/redKnight/redKnightBack.png")
@@ -43,9 +44,32 @@ func _physics_process(_delta):
 
 	if Input.is_action_just_pressed("attack") and attack_timer.is_stopped():
 		sword_hitbox.position = facing_direction * 12 # position the sword hitbox in front of the player based on facing direction
+		sword_sprite.position = facing_direction * 12 # position the sword sprite in front of the player based on facing direction
+
+		var base_rotation: float = 0.0
+		if facing_direction == Vector2.DOWN:
+			base_rotation = 180.0
+		elif facing_direction == Vector2.UP:
+			base_rotation = 0.0
+		elif facing_direction == Vector2.RIGHT:
+			base_rotation = 90.0
+		elif facing_direction == Vector2.LEFT:
+			base_rotation = 270.0
+
+		sword_sprite.rotation_degrees = base_rotation - 45.0
+
+		sword_sprite.visible = true
 		sword_hitbox.monitoring = true
+
+		var swing_tween = create_tween()
+		swing_tween.tween_property(
+			sword_sprite,
+			"rotation_degrees",
+			base_rotation + 45.0,
+			0.2
+		)
 		attack_timer.start()
-		print("Attack!")
+		print("Attack started!")
 
 	# Move the player
 	move_and_slide()
@@ -53,6 +77,7 @@ func _physics_process(_delta):
 
 func _on_attack_timer_timeout() -> void:
 	sword_hitbox.monitoring = false # turn off hitbox when timer expires
+	sword_sprite.visible = false
 	print("Attack finished!")
 
 
