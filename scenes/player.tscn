@@ -10,7 +10,7 @@ size = Vector2(10, 6)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_acsdx"]
 size = Vector2(10, 8)
 
-[node name="Player" type="CharacterBody2D" unique_id=2080615944]
+[node name="Player" type="CharacterBody2D" unique_id=2080615944 groups=["player"]]
 script = ExtResource("1_g2els")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1409526947]
@@ -20,19 +20,23 @@ texture = ExtResource("1_3vyb7")
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_qhqgy")
 
-[node name="SwordHitBox" type="Area2D" parent="." unique_id=1359048966]
-monitoring = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordHitBox" unique_id=1223133962]
-shape = SubResource("RectangleShape2D_acsdx")
-
 [node name="AttackTimer" type="Timer" parent="." unique_id=757338865]
 wait_time = 0.2
 one_shot = true
 
-[node name="SwordSprite" type="Sprite2D" parent="." unique_id=1214600666]
+[node name="SwordPivot" type="Node2D" parent="." unique_id=1698021452]
+
+[node name="SwordSprite" type="Sprite2D" parent="SwordPivot" unique_id=1214600666]
 visible = false
+position = Vector2(0, -8)
 texture = ExtResource("3_qhqgy")
 
-[connection signal="body_entered" from="SwordHitBox" to="." method="_on_sword_hit_box_body_entered"]
+[node name="SwordHitBox" type="Area2D" parent="SwordPivot" unique_id=1359048966]
+position = Vector2(0, -8)
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordPivot/SwordHitBox" unique_id=1223133962]
+shape = SubResource("RectangleShape2D_acsdx")
+
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="body_entered" from="SwordPivot/SwordHitBox" to="." method="_on_sword_hit_box_body_entered"]
