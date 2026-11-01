@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var speed: float = 70.0 # set speed variable to 70.0
+@export var health: int = 6
 
 var facing_direction: Vector2 = Vector2.DOWN
 
@@ -87,3 +88,9 @@ func _on_sword_hit_box_body_entered(body: Node2D) -> void:
 	
 	if body.is_in_group("enemies"):
 		body.take_damage(1) # call the take_damage function on the enemy with 1 damage
+
+func take_damage(amount: int) -> void:
+	health -= amount
+	print("Player health: %d" % health)
+	if health <= 0:
+		print("Player died!")

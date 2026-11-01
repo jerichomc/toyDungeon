@@ -7,7 +7,6 @@
 size = Vector2(11, 15)
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1775885179 groups=["enemies"]]
-position = Vector2(15, 5)
 script = ExtResource("1_md0e3")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2030115149]
@@ -17,3 +16,6 @@ region_rect = Rect2(64.2802, 48.060158, 15.886932, 15.939842)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1554284440]
 shape = SubResource("RectangleShape2D_8tegq")
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=1613772580]
+one_shot = true
