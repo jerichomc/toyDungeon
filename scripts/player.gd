@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
 @export var speed: float = 70.0 # set speed variable to 70.0
-@export var health: int = 6
+@export var health: int = 5
+var is_dead: bool = false
 
 var facing_direction: Vector2 = Vector2.DOWN
 
@@ -16,6 +17,13 @@ var back_texture = preload("res://assets/original/redKnight/redKnightBack.png") 
 var side_texture = preload("res://assets/original/redKnight/redKnightSide.png")
 
 func _physics_process(_delta):
+	if is_dead:
+		velocity = Vector2.ZERO
+		
+		if Input.is_action_just_pressed("restart"):
+			get_tree().reload_current_scene()
+		return
+
 	var direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
 	if direction != Vector2.ZERO:
@@ -90,7 +98,11 @@ func _on_sword_hit_box_body_entered(body: Node2D) -> void:
 		body.take_damage(1) # call the take_damage function on the enemy with 1 damage
 
 func take_damage(amount: int) -> void:
+	if is_dead:
+		return
 	health -= amount
 	print("Player health: %d" % health)
 	if health <= 0:
-		print("Player died!")
+		is_dead = true
+		print("Game Over! Press R to restart.")
+		

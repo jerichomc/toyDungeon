@@ -20,9 +20,15 @@ func _physics_process(_delta):
 	if player == null:
 		return
 
+	if player.is_dead:
+		velocity = Vector2.ZERO
+		return
+
 	var distance = global_position.distance_to(player.global_position)
 
 	if distance <= attack_range:
+		if player.is_dead:
+			return
 		if attack_timer.is_stopped():
 			attack_timer.start()
 			player.take_damage(1) # call the take_damage function on the player with 1 damage
