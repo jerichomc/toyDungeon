@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dd0var1k6b72t"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1575539581]
+
+[node name="Hearts" type="HBoxContainer" parent="." unique_id=2108223329]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 134.0
+offset_bottom = 48.0
+scale = Vector2(0.5, 0.5)
+
+[node name="Heart1" type="Label" parent="Hearts" unique_id=1612494900]
+layout_mode = 2
+text = "♥"
+
+[node name="Heart2" type="Label" parent="Hearts" unique_id=229375870]
+layout_mode = 2
+text = "♥"
+
+[node name="Heart3" type="Label" parent="Hearts" unique_id=681532783]
+layout_mode = 2
+text = "♥"
+
+[node name="Heart4" type="Label" parent="Hearts" unique_id=53490552]
+layout_mode = 2
+text = "♥"
+
+[node name="Heart5" type="Label" parent="Hearts" unique_id=9568747]
+layout_mode = 2
+text = "♥"
